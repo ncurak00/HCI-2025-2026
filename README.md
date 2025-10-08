@@ -1,5 +1,3 @@
-# HCI-2025-2026
-
 # Semester Project <!-- omit in toc -->
 
 - [Project Structure](#project-structure)
