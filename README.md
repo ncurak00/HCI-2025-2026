@@ -24,7 +24,7 @@
 
 ### Semester Assignments
 
-- Link to Assignment 1: [**Assignment 1**](URL_TO_ASSIGNMENT_1) <!-- Replace with actual URL -->
+- Link to Assignment 1: [Idea Pitch](https://github.com/ncurak00/HCI-2025-2026/tree/main/Canva%20-%20video%20pitch) <!-- Replace with actual URL -->
 - Link to Assignment 2: [**Assignment 2**](URL_TO_ASSIGNMENT_2) <!-- Replace with actual URL -->
 - Link to Assignment 3: [**Assignment 3**](URL_TO_ASSIGNMENT_3) <!-- Replace with actual URL -->
 <!-- Add more assignments as necessary -->
