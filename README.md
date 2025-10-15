@@ -30,7 +30,7 @@
 <!-- Add more assignments as necessary -->
 
 ### Semester Docs
-- Link to Doc 1: [Summary]()
+- Link to Doc 1: [Summary](https://korisnicka-sucelja.gitbook.io/idea-pitch-summary/)
 
 ## Project Requirements
 
