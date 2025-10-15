@@ -29,6 +29,9 @@
 - Link to Assignment 3: [**Assignment 3**](URL_TO_ASSIGNMENT_3) <!-- Replace with actual URL -->
 <!-- Add more assignments as necessary -->
 
+### Semester Docs
+- Link to Doc 1: [Summary]()
+
 ## Project Requirements
 
 ### Web Application Requirements
