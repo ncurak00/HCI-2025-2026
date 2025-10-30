@@ -31,6 +31,7 @@
 
 ### Semester Docs
 - Link to Doc 1: [Summary](https://korisnicka-sucelja.gitbook.io/idea-pitch-summary/)
+- Link to Doc 2: [User personas and information architecture](https://test-854.gitbook.io/user-personas-and-information-architecture/)
 
 ## Project Requirements
 
