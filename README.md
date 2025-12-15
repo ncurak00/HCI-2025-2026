@@ -25,13 +25,15 @@
 ### Semester Assignments
 
 - Link to Assignment 1: [Idea Pitch](https://github.com/ncurak00/HCI-2025-2026/tree/main/Canva%20-%20video%20pitch) <!-- Replace with actual URL -->
-- Link to Assignment 2: [**Assignment 2**](URL_TO_ASSIGNMENT_2) <!-- Replace with actual URL -->
+- Link to Assignment 2: [User personas and information architecture](https://test-854.gitbook.io/user-personas-and-information-architecture/)
 - Link to Assignment 3: [**Assignment 3**](URL_TO_ASSIGNMENT_3) <!-- Replace with actual URL -->
+- Link to Assignment 4: [Final low or high fidelity prototype](https://github.com/ncurak00/HCI-2025-2026/blob/main/Final%20low%20or%20high%20fidelity%20prototype.docx)
 <!-- Add more assignments as necessary -->
 
 ### Semester Docs
 - Link to Doc 1: [Summary](https://korisnicka-sucelja.gitbook.io/idea-pitch-summary/)
 - Link to Doc 2: [User personas and information architecture](https://test-854.gitbook.io/user-personas-and-information-architecture/)
+- Link to Doc 4: [Final low or high fidelity prototype](https://github.com/ncurak00/HCI-2025-2026/blob/main/Final%20low%20or%20high%20fidelity%20prototype.docx)
 
 ## Project Requirements
 
