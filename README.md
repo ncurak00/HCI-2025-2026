@@ -53,4 +53,3 @@
 - [ ] Conduct usablity evaluation of your web application
 - [ ] Analyze the application's performance ([PageSpeed Insights](https://pagespeed.web.dev/))
 - [ ] The analysis results will be part of the final report
->>>>>>> fdd525215582cc5f2cc5aa12523f590551bfaa67
