@@ -1,12 +1,12 @@
 import Link from "next/link";
 
 const CATEGORIES = [
-  { title: "Pizza", emoji: "🍕", href: "/book_meal" },
-  { title: "Burgers", emoji: "🍔", href: "/book_meal" },
-  { title: "Pasta", emoji: "🍝", href: "/book_meal" },
-  { title: "Sushi", emoji: "🍣", href: "/book_meal" },
-  { title: "Salads", emoji: "🥗", href: "/book_meal" },
-  { title: "Desserts", emoji: "🍰", href: "/book_meal" },
+  { title: "Pizza", emoji: "🍕", href: "/book_meal?category=Pizza" },
+  { title: "Burgers", emoji: "🍔", href: "/book_meal?category=Burgers" },
+  { title: "Pasta", emoji: "🍝", href: "/book_meal?category=Pasta" },
+  { title: "Sushi", emoji: "🍣", href: "/book_meal?category=Sushi" },
+  { title: "Salads", emoji: "🥗", href: "/book_meal?category=Salads" },
+  { title: "Desserts", emoji: "🍰", href: "/book_meal?category=Desserts" },
 ];
 
 const BLOG_POSTS = [
