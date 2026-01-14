@@ -28,6 +28,7 @@
 - Link to Assignment 2: [User personas and information architecture](https://test-854.gitbook.io/user-personas-and-information-architecture/)
 - Link to Assignment 3: [**Assignment 3**](URL_TO_ASSIGNMENT_3) <!-- Replace with actual URL -->
 - Link to Assignment 4: [Final low or high fidelity prototype](https://github.com/ncurak00/HCI-2025-2026/blob/main/Final%20low%20or%20high%20fidelity%20prototype.docx)
+- Link to Assignment 5: [High-fidelity prototype for both the desktop and mobile versions of the landing/home page](https://hci2526-foodhub.vercel.app/)
 <!-- Add more assignments as necessary -->
 
 ### Semester Docs
