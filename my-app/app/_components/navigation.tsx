@@ -166,7 +166,7 @@ export function Navigation() {
       </div>
 
       {mobileOpen && (
-        <div className="border-t border-gray-100 bg-white md:hidden">
+        <div className="max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-gray-100 bg-white md:hidden">
           <div className="mx-auto max-w-7xl px-4 py-3">
             <ul className="flex flex-col gap-2">
               {pages.map((page) => (
