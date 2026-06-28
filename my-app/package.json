@@ -9,10 +9,17 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@portabletext/react": "^6.2.0",
+    "@sanity/image-url": "^2.1.1",
+    "@sanity/vision": "^6.2.0",
+    "@supabase/ssr": "^0.12.0",
+    "@supabase/supabase-js": "^2.105.3",
     "lucide-react": "^0.562.0",
     "next": "16.1.0",
+    "next-sanity": "^13.1.1",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "sanity": "^6.2.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -21,7 +28,9 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.0",
+    "jiti": "^2.7.0",
     "tailwindcss": "^4",
+    "tsx": "^4.22.4",
     "typescript": "^5"
   }
 }

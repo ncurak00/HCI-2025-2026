@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Navigation } from "./_components/navigation";
+import { CartProvider } from "./_context/cart-context";
+import { LayoutShell } from "./_components/layout-shell";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,8 +29,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white overflow-x-hidden`}
       >
-        <Navigation />
-        <main className="pt-20 w-full overflow-x-hidden">{children}</main>
+        <CartProvider>
+          <LayoutShell>
+            <main className="w-full overflow-x-hidden">
+              {children}
+            </main>
+          </LayoutShell>
+        </CartProvider>
       </body>
     </html>
   );

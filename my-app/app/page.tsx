@@ -1,45 +1,32 @@
 import Link from "next/link";
+import {
+  Pizza,
+  Sandwich,
+  UtensilsCrossed,
+  Fish,
+  Salad,
+  Cake,
+  Zap,
+  CheckCircle2,
+  Truck,
+} from "lucide-react";
+import { getLatestPosts } from "@/lib/sanity/blog";
+import { urlForImage } from "@/lib/sanity/image";
+
+export const revalidate = 60;
 
 const CATEGORIES = [
-  { title: "Pizza", emoji: "🍕", href: "/book_meal?category=Pizza" },
-  { title: "Burgers", emoji: "🍔", href: "/book_meal?category=Burgers" },
-  { title: "Pasta", emoji: "🍝", href: "/book_meal?category=Pasta" },
-  { title: "Sushi", emoji: "🍣", href: "/book_meal?category=Sushi" },
-  { title: "Salads", emoji: "🥗", href: "/book_meal?category=Salads" },
-  { title: "Desserts", emoji: "🍰", href: "/book_meal?category=Desserts" },
+  { title: "Pizza", icon: Pizza, href: "/book_meal?category=Pizza" },
+  { title: "Burgers", icon: Sandwich, href: "/book_meal?category=Burgers" },
+  { title: "Pasta", icon: UtensilsCrossed, href: "/book_meal?category=Pasta" },
+  { title: "Sushi", icon: Fish, href: "/book_meal?category=Sushi" },
+  { title: "Salads", icon: Salad, href: "/book_meal?category=Salads" },
+  { title: "Desserts", icon: Cake, href: "/book_meal?category=Desserts" },
 ];
 
-const BLOG_POSTS = [
-  {
-    date: "December 1, 2024",
-    title: "The Secret to Perfect Pizza Dough",
-    excerpt:
-      "Learn the art of making authentic Italian pizza dough from scratch. Our chefs share their tips...",
-    href: "/blog",
-    imageUrl:
-      "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=1200&q=60",
-  },
-  {
-    date: "November 15, 2024",
-    title: "Farm to Table: Our Ingredient Journey",
-    excerpt:
-      "Discover how we source the freshest local ingredients for our dishes. We work directly...",
-    href: "/blog",
-    imageUrl:
-      "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1200&q=60",
-  },
-  {
-    date: "October 20, 2024",
-    title: "New Menu Items This Season",
-    excerpt:
-      "Exciting new additions to our menu! Try our seasonal specials featuring autumn flavors...",
-    href: "/blog",
-    imageUrl:
-      "https://images.unsplash.com/photo-1523986371872-9d3ba2e2f642?auto=format&fit=crop&w=1200&q=60",
-  },
-];
+export default async function Home() {
+  const latestPosts = await getLatestPosts(3);
 
-export default function Home() {
   return (
     <main className="flex flex-col">
       {/* HERO */}
@@ -47,10 +34,8 @@ export default function Home() {
         className="relative w-screen min-h-[85vh] bg-cover bg-center"
         style={{ backgroundImage: "url('/test.png')" }}
       >
-        {/* overlay */}
         <div className="absolute inset-0 bg-black/55" />
 
-        {/* content */}
         <div className="relative mx-auto flex min-h-[85vh] max-w-6xl items-center px-6">
           <div className="max-w-xl text-left text-white">
             <h1 className="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl md:text-6xl">
@@ -73,6 +58,13 @@ export default function Home() {
               </Link>
 
               <Link
+                href="/register"
+                className="inline-flex items-center justify-center rounded-md border border-orange-400 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-black"
+              >
+                Create Account
+              </Link>
+
+              <Link
                 href="/about"
                 className="inline-flex items-center justify-center rounded-md border border-white/70 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-black"
               >
@@ -88,8 +80,8 @@ export default function Home() {
         <div className="mx-auto max-w-6xl">
           <div className="grid gap-8 text-center md:grid-cols-3">
             <div className="flex flex-col items-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-100 text-xl">
-                ⚡
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-100 text-orange-600">
+                <Zap size={22} />
               </div>
               <h3 className="mt-4 text-lg font-semibold">Fast Delivery</h3>
               <p className="mt-2 max-w-xs text-sm text-gray-600">
@@ -98,18 +90,20 @@ export default function Home() {
             </div>
 
             <div className="flex flex-col items-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-100 text-xl">
-                ✅
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-100 text-orange-600">
+                <CheckCircle2 size={22} />
               </div>
-              <h3 className="mt-4 text-lg font-semibold">Quality Guaranteed</h3>
+              <h3 className="mt-4 text-lg font-semibold">
+                Quality Guaranteed
+              </h3>
               <p className="mt-2 max-w-xs text-sm text-gray-600">
                 Fresh ingredients and high-quality meals every time.
               </p>
             </div>
 
             <div className="flex flex-col items-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-100 text-xl">
-                🚚
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-100 text-orange-600">
+                <Truck size={22} />
               </div>
               <h3 className="mt-4 text-lg font-semibold">Free Delivery</h3>
               <p className="mt-2 max-w-xs text-sm text-gray-600">
@@ -134,7 +128,7 @@ export default function Home() {
                 href={c.href}
                 className="flex flex-col items-center justify-center rounded-lg bg-white p-4 text-center shadow-sm transition hover:shadow-md"
               >
-                <div className="text-2xl">{c.emoji}</div>
+                <c.icon size={26} className="text-orange-600" />
                 <div className="mt-2 text-sm font-medium text-gray-800">
                   {c.title}
                 </div>
@@ -160,33 +154,42 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="mt-8 grid gap-6 md:grid-cols-3">
-            {BLOG_POSTS.map((post) => (
-              <Link
-                key={post.title}
-                href={post.href}
-                className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition hover:shadow-md"
-              >
-                <div className="h-44 w-full bg-gray-200">
-                  {/* simple image background (no next/image needed) */}
-                  <div
-                    className="h-full w-full bg-cover bg-center"
-                    style={{ backgroundImage: `url('${post.imageUrl}')` }}
-                  />
-                </div>
+          {latestPosts.length === 0 ? (
+            <p className="mt-8 text-sm text-gray-600">
+              No blog posts yet — check back soon.
+            </p>
+          ) : (
+            <div className="mt-8 grid gap-6 md:grid-cols-3">
+              {latestPosts.map((post) => (
+                <Link
+                  key={post._id}
+                  href={`/blog/${post.slug}`}
+                  className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition hover:shadow-md"
+                >
+                  <div className="h-44 w-full bg-gray-200">
+                    <div
+                      className="h-full w-full bg-cover bg-center"
+                      style={{
+                        backgroundImage: `url('${urlForImage(post.coverImage).width(800).height(440).url()}')`,
+                      }}
+                    />
+                  </div>
 
-                <div className="p-5">
-                  <p className="text-xs text-gray-500">{post.date}</p>
-                  <h3 className="mt-2 line-clamp-2 text-base font-semibold text-gray-900">
-                    {post.title}
-                  </h3>
-                  <p className="mt-2 line-clamp-3 text-sm text-gray-600">
-                    {post.excerpt}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
+                  <div className="p-5">
+                    <p className="text-xs text-gray-500">
+                      {new Date(post.date).toLocaleDateString("en", { dateStyle: "medium" })}
+                    </p>
+                    <h3 className="mt-2 line-clamp-2 text-base font-semibold text-gray-900">
+                      {post.title}
+                    </h3>
+                    <p className="mt-2 line-clamp-3 text-sm text-gray-600">
+                      {post.excerpt}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -197,17 +200,27 @@ export default function Home() {
             <h2 className="text-2xl font-bold text-gray-900">
               Ready to order your next meal?
             </h2>
+
             <p className="mt-2 text-sm text-gray-600">
               Browse the menu and place your order in minutes.
             </p>
           </div>
 
-          <Link
-          href="/book_meal"
-            className="rounded-md bg-orange-500 px-8 py-3 text-white font-semibold transition hover:bg-orange-600"
-          >
-            Get started
-          </Link> 
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Link
+              href="/book_meal"
+              className="rounded-md bg-orange-500 px-8 py-3 font-semibold text-white transition hover:bg-orange-600"
+            >
+              Get started
+            </Link>
+
+            <Link
+              href="/register"
+              className="rounded-md border border-orange-500 px-8 py-3 font-semibold text-orange-600 transition hover:bg-orange-50"
+            >
+              Register
+            </Link>
+          </div>
         </div>
       </section>
     </main>

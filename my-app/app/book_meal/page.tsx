@@ -1,7 +1,9 @@
 "use client";
 
+import { useCart } from "../_context/cart-context";
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Search } from "lucide-react";
 
 type Category = "All" | "Pizza" | "Burgers" | "Pasta" | "Sushi" | "Salads" | "Desserts";
 
@@ -25,8 +27,7 @@ const MENU_ITEMS: MenuItem[] = [
     description: "Classic pizza with tomato sauce, mozzarella, and fresh basil.",
     category: "Pizza",
     price: 12.99,
-    imageUrl:
-      "https://images.unsplash.com/photo-1548365328-8b849e6f1f02?auto=format&fit=crop&w=1400&q=60",
+    imageUrl: "/margherita-pizza.jpg",
   },
   {
     id: "pizza-pepperoni",
@@ -34,17 +35,15 @@ const MENU_ITEMS: MenuItem[] = [
     description: "Traditional pizza loaded with pepperoni and cheese.",
     category: "Pizza",
     price: 14.99,
-    imageUrl:
-      "https://images.unsplash.com/photo-1601924582975-7e1d5f5d1b54?auto=format&fit=crop&w=1400&q=60",
+    imageUrl: "/pepperoni-pizza.jpg",
   },
   {
     id: "burger-classic",
     title: "Classic Burger",
-    description: "Juicy beef patty with lettuce, tomato, pickles, and special sauce.",
+    description: "Juicy beef patty with lettuce, tomato, pickles, and sauce.",
     category: "Burgers",
     price: 10.99,
-    imageUrl:
-      "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1400&q=60",
+    imageUrl: "/classic-burger.jpg",
   },
   {
     id: "burger-cheeseburger",
@@ -52,8 +51,7 @@ const MENU_ITEMS: MenuItem[] = [
     description: "Double beef patty with melted cheddar cheese.",
     category: "Burgers",
     price: 12.99,
-    imageUrl:
-      "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1400&q=60",
+    imageUrl: "/cheeseburger.jpg",
   },
   {
     id: "pasta-carbonara",
@@ -61,8 +59,7 @@ const MENU_ITEMS: MenuItem[] = [
     description: "Creamy sauce with pancetta and parmesan.",
     category: "Pasta",
     price: 11.49,
-    imageUrl:
-      "https://images.unsplash.com/photo-1523986371872-9d3ba2e2f642?auto=format&fit=crop&w=1400&q=60",
+    imageUrl: "/pasta-carbonara.jpg",
   },
   {
     id: "sushi-maki",
@@ -70,8 +67,7 @@ const MENU_ITEMS: MenuItem[] = [
     description: "Assorted maki rolls with soy sauce and ginger.",
     category: "Sushi",
     price: 13.5,
-    imageUrl:
-      "https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&w=1400&q=60",
+    imageUrl: "/sushi-set.jpg",
   },
   {
     id: "salad-caesar",
@@ -79,8 +75,7 @@ const MENU_ITEMS: MenuItem[] = [
     description: "Romaine lettuce, croutons, parmesan, and caesar dressing.",
     category: "Salads",
     price: 8.99,
-    imageUrl:
-      "https://images.unsplash.com/photo-1551892374-ecf8754cf8b0?auto=format&fit=crop&w=1400&q=60",
+    imageUrl: "/caesar-salad.jpg",
   },
   {
     id: "dessert-cheesecake",
@@ -88,13 +83,52 @@ const MENU_ITEMS: MenuItem[] = [
     description: "Classic creamy cheesecake with a buttery crust.",
     category: "Desserts",
     price: 6.49,
-    imageUrl:
-      "https://images.unsplash.com/photo-1542826438-6d8f97fc3f9b?auto=format&fit=crop&w=1400&q=60",
+    imageUrl: "/cheesecake.jpg",
   },
 ];
 
 function formatPrice(price: number) {
   return `$${price.toFixed(2)}`;
+}
+
+// Levenshtein edit distance, used to tolerate typos/misspellings in search (e.g. "piza" -> "pizza")
+function levenshtein(a: string, b: string) {
+  const rows = a.length + 1;
+  const cols = b.length + 1;
+  const dist = Array.from({ length: rows }, (_, i) => [i, ...new Array(cols - 1).fill(0)]);
+
+  for (let j = 1; j < cols; j++) dist[0][j] = j;
+
+  for (let i = 1; i < rows; i++) {
+    for (let j = 1; j < cols; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+
+      dist[i][j] = Math.min(
+        dist[i - 1][j] + 1,
+        dist[i][j - 1] + 1,
+        dist[i - 1][j - 1] + cost,
+      );
+    }
+  }
+
+  return dist[rows - 1][cols - 1];
+}
+
+function maxAllowedDistance(wordLength: number) {
+  if (wordLength <= 4) return 1;
+  if (wordLength <= 7) return 2;
+  return 3;
+}
+
+// Matches a query word against text even with typos, e.g. "pica" or "piza" matches "pizza"
+function fuzzyTextMatch(text: string, query: string) {
+  const words = text.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
+
+  return words.some((word) => {
+    if (word.includes(query) || query.includes(word)) return true;
+
+    return levenshtein(word, query) <= maxAllowedDistance(Math.max(word.length, query.length));
+  });
 }
 
 function MenuPage() {
@@ -104,6 +138,7 @@ function MenuPage() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { addToCart } = useCart();
 
   const menuRef = useRef<HTMLElement | null>(null);
 
@@ -124,15 +159,17 @@ function MenuPage() {
   }, [searchParams]);
 
   const filteredItems = useMemo(() => {
-    const q = query.trim().toLowerCase();
+    const queryWords = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
 
     return MENU_ITEMS.filter((item) => {
       const matchesCategory = activeCategory === "All" ? true : item.category === activeCategory;
 
+      const searchableText = `${item.title} ${item.description} ${item.category}`;
+
       const matchesQuery =
-        q.length === 0
+        queryWords.length === 0
           ? true
-          : item.title.toLowerCase().includes(q) || item.description.toLowerCase().includes(q);
+          : queryWords.every((word) => fuzzyTextMatch(searchableText, word));
 
       return matchesCategory && matchesQuery;
     });
@@ -154,26 +191,26 @@ function MenuPage() {
   }
 
   return (
-    <main className="w-full bg-white text-gray-900">
+    <main className="w-full bg-white pt-16 text-gray-900">
       <div className="mx-auto w-full max-w-6xl px-4 py-10">
         <div className="mb-6">
           <h1 className="text-3xl font-extrabold tracking-tight">Our Menu</h1>
           <p className="mt-2 text-sm text-gray-600">Browse our delicious selection of meals</p>
         </div>
 
-        <div className="mb-4">
-          <div className="flex items-center gap-2 rounded-md border border-gray-200 bg-white px-3 py-2">
-            <span className="select-none text-gray-400">🔎</span>
+        <div className="mb-6">
+          <div className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3.5 shadow-sm">
+            <Search size={20} className="text-gray-400" />
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search for dishes..."
-              className="w-full bg-transparent text-sm outline-none placeholder:text-gray-400"
+              className="w-full bg-transparent text-base outline-none placeholder:text-gray-400"
             />
           </div>
         </div>
 
-        <div className="mb-8 flex flex-wrap items-center gap-2">
+        <div className="mb-10 flex flex-wrap items-center gap-3">
           {CATEGORIES.map((cat) => {
             const isActive = activeCategory === cat;
 
@@ -181,7 +218,7 @@ function MenuPage() {
               <button
                 key={cat}
                 onClick={() => updateCategory(cat)}
-                className={`cursor-pointer rounded-md px-3 py-1.5 text-xs font-semibold transition-all duration-200 ${
+                className={`cursor-pointer rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 ${
                   isActive
                     ? "bg-orange-500 text-white shadow-sm"
                     : "bg-white text-gray-700 border border-gray-200 hover:bg-orange-50 hover:text-orange-600 hover:border-orange-300 hover:shadow-sm"
@@ -218,7 +255,14 @@ function MenuPage() {
 
                 <button
                   className="mt-4 w-full cursor-pointer rounded-md bg-orange-500 px-4 py-2 text-xs font-semibold text-white transition-all duration-200 hover:bg-orange-600 hover:shadow-md hover:scale-[1.02]"
-                  onClick={() => alert(`Added to cart: ${item.title}`)}
+                  onClick={() =>
+                    addToCart({
+                    id: item.id,
+                    title: item.title,
+                    price: item.price,
+                    imageUrl: item.imageUrl,
+                  })
+                }
                 >
                   + Add to Cart
                 </button>
