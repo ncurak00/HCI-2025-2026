@@ -19,7 +19,7 @@
 ### Semester Project
 
 - Link to your production version: [**Production Version**](https://hci2526-foodhub.vercel.app/) <!-- Replace with actual URL -->
-- Link to your final report: [**Final Report**](URL_TO_FINAL_REPORT) <!-- Replace with actual URL -->
+- Link to your final report: [**Final Report**](https://github.com/ncurak00/HCI-2025-2026/blob/main/FoodHub%20-%20Final%20Report.pdf) <!-- Replace with actual URL -->
 <!-- Add more as necessary -->
 
 ### Semester Assignments
